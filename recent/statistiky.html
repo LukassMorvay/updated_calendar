@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8">
+  <title>Štatistiky</title>
+
+  <!-- hlavné štýly aplikácie -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <!-- HERO HEADER -->
+  <div class="stats-hero">
+    <button class="stats-back-btn" onclick="window.location.href='index.html'">←</button>
+    <div class="stats-hero-icon">📊</div>
+    <div class="stats-hero-title">ŠTATISTIKY</div>
+  </div>
+
+  <!-- OBSAH STRÁNKY -->
+  <div class="stats-page">
+
+    <!-- OVLÁDACIE PRVKY -->
+    <div class="stats-controls">
+
+  <!-- DATUMY -->
+  <div class="stats-date-box">
+    <div class="date-field">
+      <span>Od</span>
+      <input type="date" id="fromDate">
+    </div>
+
+    <div class="date-field">
+      <span>Do</span>
+      <input type="date" id="toDate">
+    </div>
+  </div>
+
+    <!-- VÝSTUP ŠTATISTÍK -->
+    <div id="statsContent"></div>
+<!-- DLAZDICE -->
+  <div class="stats-tiles">
+
+  <button id="loadSummary" class="stats-tile primary" type="button">
+    <div class="tile-icon">🧠</div>
+    <div class="tile-text">Sumár obdobia</div>
+  </button>
+
+  <button id="loadTopDay" class="stats-tile" type="button">
+    <div class="tile-icon">⭐</div>
+    <div class="tile-text">TOP deň</div>
+  </button>
+
+  <button id="loadJobsStats" class="stats-tile" type="button">
+    <div class="tile-icon">📊</div>
+    <div class="tile-text">Základ</div>
+  </button>
+
+  <button id="loadTypeStats" class="stats-tile" type="button">
+    <div class="tile-icon">🧰</div>
+    <div class="tile-text">Typy prác</div>
+  </button>
+
+  <button id="loadMechanicPie" class="stats-tile" type="button">
+    <div class="tile-icon">👨‍🔧</div>
+    <div class="tile-text">Mechanici</div>
+  </button>
+
+  <button id="loadInsuranceStats" class="stats-tile" type="button">
+    <div class="tile-icon">🏢</div>
+    <div class="tile-text">Poisťovne</div>
+  </button>
+
+  <button id="loadDayLoadStats" class="stats-tile" type="button">
+    <div class="tile-icon">📈</div>
+    <div class="tile-text">Vyťaženosť</div>
+  </button>
+
+</div>
+  </div>
+
+  <!-- LOGIKA ŠTATISTÍK -->
+  <script src="stats.js"></script>
+
+</body>
+</html>

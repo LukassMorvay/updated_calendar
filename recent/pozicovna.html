@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pozicovna</title>
+
+  <link rel="stylesheet" href="pozicovna.css" />
+</head>
+<body>
+  <div class="pozicovna-app">
+    <!-- HLAVICKA -->
+    <div class="calendar-header">
+      <div class="calendar-title-row">
+        <div class="calendar-title-box">
+          <h1>Pozicovna</h1>
+        </div>
+
+        <a class="back-btn" href="../Kalendár/" title="Spat do Kalendara prac">
+          ← Spat do Kalendara prac
+        </a>
+      </div>
+
+      <div class="calendar-date-box">
+        <button id="prevMonth" type="button" aria-label="Predchadzajuci mesiac">‹</button>
+        <div id="monthYear"></div>
+        <button id="nextMonth" type="button" aria-label="Dalsi mesiac">›</button>
+      </div>
+    </div>
+
+    <!-- KALENDAR + PRAVY PANEL -->
+    <div class="pozicovna-layout">
+
+      <!-- LAVA CAST -->
+      <div class="pozicovna-calendar">
+
+        <!-- DNI V TYZDNI (MUSIA BYT V TOM ISTOM BLOKU AKO GRID) -->
+        <div class="weekdays" aria-hidden="true">
+          <div>Po</div><div>Ut</div><div>St</div><div>Stv</div><div>Pi</div><div>So</div><div>Ne</div>
+        </div>
+
+        <!-- GRID KALENDAR -->
+        <div id="calendar" class="month-view"></div>
+      </div>
+
+      <!-- PRAVY PANEL -->
+      <div class="pozicovna-sidepanel">
+
+        <!-- VYSVETLIVKY -->
+        <div class="side-box">
+          <h3>Vysvetlivky</h3>
+
+          <table class="legend-table">
+            <tr>
+              <td><span class="legend-color reserved"></span></td>
+              <td>Rezervovane</td>
+            </tr>
+            <tr>
+              <td><span class="legend-color issued"></span></td>
+              <td>Vydane</td>
+            </tr>
+            <tr>
+              <td><span class="legend-color returned"></span></td>
+              <td>Vratene</td>
+            </tr>
+            <tr>
+              <td><span class="legend-color late"></span></td>
+              <td>Nevratene</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- CENNIK -->
+        <div class="side-box">
+          <h3>Cennik</h3>
+
+          <table class="price-table">
+            <tr>
+              <th>Nazov</th>
+              <th>Cena</th>
+            </tr>
+
+            <!-- ✏️ TU SI DOPISES POLOZKY -->
+            <tr>
+              <td>Boxy všetky po L</td>
+              <td>10 € / den</td>
+            </tr>
+            <tr>
+              <td>Boxy XL a XXL</td>
+              <td>12 € / den</td>
+            </tr>
+            <tr>
+              <td>Priečniky</td>
+              <td>7 € / den</td>
+            </tr>
+            <td>BOX+Priečniky</td>
+              <td>15 € / den</td>
+            </tr>
+            <td>Nosič na ťažné</td>
+              <td>13 € / den</td>
+            </tr>
+            <td>Nosič na ťažné+adaptér</td>
+              <td>16 € / den</td>
+            </tr>
+            <td>598 nosič</td>
+              <td>7 € / den</td>
+            </tr>
+          </table>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- MODAL – REZERVACIA -->
+    <div id="rentalModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="rentalModalTitle">
+      <div class="modal-content">
+        <h2 id="rentalModalTitle">Rezervacia</h2>
+
+        <form id="rentalForm">
+          <!-- ID pre editaciu (nova = -1) -->
+          <input type="hidden" id="rentalIndex" value="-1" />
+
+          <label>Polozka
+            <input type="text" id="rentalItem" required />
+          </label>
+
+          <label>Meno zakaznika
+            <input type="text" id="customerName" required />
+          </label>
+
+          <label>Znacka auta
+            <input type="text" id="carBrand" />
+          </label>
+
+          <label>Telefon
+            <input type="tel" id="customerPhone" required />
+          </label>
+
+          <label>Dohodnuta cena
+            <input type="number" id="rentalPrice" min="0" step="1" placeholder="Zadaj cenu" />
+          </label>
+
+          <div class="grid-2">
+            <label>Od
+              <input type="date" id="rentalFrom" required />
+            </label>
+
+            <label>Do
+              <input type="date" id="rentalTo" required />
+            </label>
+          </div>
+
+          <label>Stav
+            <select id="rentalStatus">
+              <option value="reserved">Rezervovane</option>
+              <option value="issued">Vydane</option>
+              <option value="returned">Vratene</option>
+              <option value="late">Nevratene</option>
+            </select>
+          </label>
+
+          <div class="modal-buttons">
+            <button type="submit">Ulozit</button>
+
+            <button type="button" id="deleteRental" class="danger">
+              Zmazat
+            </button>
+
+            <button type="button" id="closeRentalModal" class="secondary">Zavriet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="pozicovna.js"></script>
+  </div>
+</body>
+</html>

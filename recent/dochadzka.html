@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Dochádzkový systém</title>
+    <link rel="stylesheet" href="dochadzka.css">
+</head>
+<body>
+
+<header>
+    <h1>Dochádzkový systém</h1>
+</header>
+
+<div class="attendance-controls">
+    <select id="employeeSelect">
+        <option value="">Vyber zamestnanca</option>
+        <option value="Peter Kulich">Peter Kulich</option>
+        <option value="Tomáš Hrašna">Tomáš Hrašna</option>
+        <option value="Róbert Krutek">Róbert Krutek</option>
+    </select>
+
+    <input type="date" id="attendanceDate">
+</div>
+
+<div class="attendance-buttons">
+    <button id="startWork">Príchod</button>
+    <button id="endWork">Odchod</button>
+    <button id="breakStart">Pauza</button>
+</div>
+
+<div id="attendanceLog"></div>
+
+<script src="dochadzka.js"></script>
+</body>
+</html>

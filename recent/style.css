@@ -1,0 +1,3226 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: #f7f7f7;
+  overflow: hidden;
+}
+header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    margin-top: 30px;
+    font-size: 2em;
+    color: #313b46bf;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+
+#calendar-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+#calendar-controls button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 6px;
+    user-select: none;
+}
+
+#monthYear {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+#calendar {
+    display: grid;
+    gap: 10px;
+}
+
+.month-view {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.week-view {
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.day-view {
+    display: flex;
+    justify-content: center;
+}
+
+.day-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.vacation-container {
+    margin-bottom: 8px;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.vacation-badge {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 18px;
+    background-color: #b3e01c;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.vacation-badge:hover {
+    background-color: #a0cc17;
+}
+
+.vacation-badge .edit-vacation-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 4px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.vacation-badge .edit-vacation-btn:hover {
+    color: #007bff;
+}
+
+@media (max-width: 768px) {
+    .vacation-badge {
+        font-size: 0.8em;
+        padding: 6px 10px;
+        margin-bottom: 6px;
+        gap: 6px;
+    }
+}
+
+.day {
+    background: white;
+    border-radius: 8px;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+}
+
+.day-view .day {
+    width: 100%;
+    max-width: 1200px;
+    min-height: 600px;
+}
+
+.week-view .day {
+    flex: 1;
+    min-width: 120px;
+    max-width: 300px;
+    min-height: 300px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.month-view .day {
+    min-height: 140px;
+}
+
+.day:hover {
+    background-color: #e6f0ff;
+}
+
+.day .date {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.task-badge {
+    font-size: 0.8em;
+    padding: 5px 8px;
+    margin-bottom: 6px;
+    border-radius: 15px;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* .week-view .task-badge {
+    font-size: 0.7em;
+    padding: 4px 6px;
+    margin-bottom: 4px;
+    max-width: 100%;
+} */
+.week-view .task-badge {
+     font-size: 0.65em;
+     padding: 4px 8px;
+     margin-bottom: 4px;
+     max-width: 100%;
+     white-space: normal;
+     /* Allow text to wrap */
+     overflow: visible;
+     /* Prevent clipping of icons */
+     text-overflow: unset;
+     /* Remove ellipsis */
+     display: flex;
+     align-items: center;
+     gap: 4px;
+     /* Ensure space between elements */
+}
+
+.week-view .task-badge .checklist-icon {
+     flex-shrink: 0;
+     /* Prevent icons from shrinking */
+     width: 16px;
+     height: 16px;
+    margin-left: 2px;
+ }
+
+.task-badge.Oprava_skla,
+.task.Oprava_skla {
+    background-color: #ff69b4;
+    color: white;
+}
+
+.task-badge.Vymena_skla,
+.task.Vymena_skla {
+    background-color: #4caf50;
+    color: white;
+}
+
+.task-badge.Prelepenie_skla,
+.task.Prelepenie_skla {
+    background-color: #b5651d;
+    color: white;
+}
+
+.task-badge.Tazne_zariadenie,
+.task.Tazne_zariadenie {
+    background-color: #7b1fa2;
+    color: black;
+}
+
+.task-badge.Ziarovky,
+.task.Ziarovky {
+    background-color: #fff176;
+    color: black;
+}
+
+.task-badge.Ostatne,
+.task.Ostatne {
+    background-color: #f0e68c;
+    color: black;
+}
+
+.task-badge.Klimatizacia,
+.task.Klimatizacia {
+    background-color: #2196f3;
+    color: white;
+}
+
+.task-counter {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.counter-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: bold;
+    color: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.counter-circle.Oprava_skla {
+    background-color: #ff69b4;
+}
+
+.counter-circle.Vymena_skla {
+    background-color: #4caf50;
+}
+
+.counter-circle.Prelepenie_skla {
+    background-color: #b5651d;
+}
+
+.counter-circle.Tazne_zariadenie {
+    background-color: #7b1fa2;
+}
+
+.counter-circle.Ziarovky {
+    background-color: #fff176;
+    color: black;
+}
+
+.counter-circle.Ostatne {
+    background-color: #e0d670;
+}
+
+.counter-circle.Klimatizacia {
+    background-color: #2196f3;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.week-view .counter-circle {
+    width: 18px;
+    height: 18px;
+    font-size: 0.7em;
+}
+
+.show-more-btn {
+    font-size: 0.7em;
+    padding: 4px 8px;
+    margin-top: 4px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.show-more-btn:hover {
+    background: #0056b3;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px 35px;
+    border-radius: 12px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+#taskList {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 25px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 0.9em;
+}
+
+.task {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    margin: 8px 0;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.task .task-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-weight: 700;
+    margin-left: 6px;
+    color: rgb(0, 0, 0);
+    transition: background-color 0.3s ease;
+}
+
+.task .edit-btn {
+    background-color: #ffc107;
+    color: black;
+}
+
+.task .edit-btn:hover {
+    background-color: #e0aa06;
+}
+
+.task .delete-btn {
+    background-color: #c62828;
+}
+
+.task .delete-btn:hover {
+    background-color: #9b1b1b;
+}
+
+form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: 600;
+}
+
+form .required {
+    color: red;
+    margin-left: 5px;
+}
+
+form input[type="text"],
+form select,
+form input[type="date"],
+form input[type="number"],
+form input[type="tel"] {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+form input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    margin-top: 10px;
+    vertical-align: middle;
+}
+
+.checklist-section {
+    margin-top: 20px;
+}
+
+.checklist-section h3 {
+    margin-bottom: 10px;
+}
+
+.checklist-section label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.checklist-icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 4px;
+    padding: 2px;
+    margin-left: 4px;
+}
+
+.task-badge .checklist-icon svg {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+.modal-buttons {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.modal-buttons button {
+    padding: 10px 22px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    margin-left: 10px;
+}
+
+.modal-buttons button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    font-size: 135%;
+    padding: 14px 32px;
+}
+
+.modal-buttons button#editDetails {
+    background-color: #ffc107;
+    color: black;
+}
+
+#printLabel {
+    background-color: #28a745;
+    color: white;}
+
+#printLabel:hover {
+    background-color: #218838;
+}
+
+#saveChecklist {
+    background-color: #007bff;
+    color: white;
+}
+
+#saveChecklist:hover {
+    background-color: #0069d9;
+}
+
+.modal-buttons button[type="submit"]:hover,
+.checklist-buttons button#saveChecklist:hover {
+    background-color: #0056b3;
+}
+
+.modal-buttons button#editDetails:hover {
+    background-color: #e0a800;
+}
+
+#deleteVacationBtn,
+#deleteNoteBtn {
+    background-color: #c62828;
+    color: white;
+}
+
+#deleteVacationBtn:hover,
+#deleteNoteBtn:hover {
+    background-color: #9b1b1b;
+}
+
+.modal-buttons button[type="button"],
+.modal-buttons button#closeDetails,
+.modal-buttons button#cancelVacationModal,
+.modal-buttons button#cancelExportModal {
+    background-color: #aaa;
+    color: white;
+}
+.modal-buttons button#cancelModal,
+.modal-buttons button#closeDetails {
+    padding: 10px22px;
+    font-size: 16px;
+}
+
+#viewControls {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#viewControls button {
+    background: #eee;
+    border: none;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#viewControls button.active {
+    background: #007bff;
+    color: white;
+}
+
+.day-view .task-badge,
+.day-view .vacation-badge {
+    font-size: 1em;
+    padding: 10px 14px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+}
+
+.day-view .task {
+    font-size: 1em;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.week-view .task {
+    font-size: 0.9em;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 8px;
+}
+
+.day .date-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 10px;
+    padding: 5px;
+    text-align: center;
+}
+
+.hour-block {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 4px 0;
+    align-items: flex-start;
+}
+
+.hour-label {
+    width: 60px;
+    text-align: right;
+    padding-right: 40px;
+    font-size: 16px;
+    color: #555;
+    font-weight: bold;
+}
+
+.hour-slot {
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+#dayPicker {
+    display: flex;
+    justify-content: center;
+    margin: 25px auto 30px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+#dayPicker button {
+    background-color: #eee;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #333;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    min-width: 80px;
+}
+
+#dayPicker button.nav-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 15px;
+    min-width: 40px;
+}
+
+#dayPicker button.nav-btn:hover {
+    background-color: #0056b3;
+}
+
+#dayPicker button:hover {
+    background-color: #ddd;
+    transform: scale(1.05);
+}
+
+#dayPicker button.active {
+    background-color: #007bff;
+    color: white;
+    box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+}
+
+.add-vacation-button {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.add-vacation-button button {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.add-vacation-button button:hover {
+    background: #0056b3;
+}
+
+.footer-text {
+    text-align: center;
+    margin-top: 10px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.2em;
+    color: rgb(216, 17, 216);
+}
+
+#detailsContent {
+    font-size: 1em;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    line-height: 1.8;
+}
+
+#detailsContent p {
+    margin: 10px 0;
+}
+
+#detailsContent strong {
+    color: #333;
+    font-weight: 600;
+}
+
+#detailsChecklist {
+    margin-top: 25px;
+}
+
+#detailsChecklist h3 {
+    margin-bottom: 12px;
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #333;
+}
+
+#detailsChecklist label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+#detailsChecklist input[type="checkbox"] {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    margin-top: 12px;
+    vertical-align: middle;
+}
+
+.checklist-buttons {
+    margin-top: 25px;
+    text-align: right;
+}
+
+.checklist-buttons button#saveChecklist {
+    padding: 18px 30px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    margin-left: 10px;
+    background-color: #007bff;
+    color: white;
+}
+
+.checklist-buttons button#saveChecklist:hover {
+    background-color: #0056b3;
+}
+
+.checklist-section label {
+    pointer-events: none;
+    cursor: default;
+}
+
+.checklist-section label>input[type="checkbox"] {
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.week-view .vacation-badge,
+.month-view .vacation-badge {
+    font-size: 0.75em;
+    padding: 4px 12px 4px 12px;
+    margin-bottom: 4px;
+    border-radius: 18px;
+    background-color: #b3e01c;
+    color: black;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.3s ease;
+    line-height: 1;
+    max-width: 100%;
+}
+
+.week-view .vacation-badge .edit-vacation-btn,
+.month-view .vacation-badge .edit-vacation-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 2px;
+    color: #333;
+    margin-left: auto;
+    transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+
+    .week-view .vacation-badge,
+    .month-view .vacation-badge {
+        font-size: 0.8em;
+        padding: 3px 10px 3px 10px;
+        gap: 3px;
+        line-height: 1;
+        max-width: 100%;
+    }
+
+    .week-view .vacation-badge .edit-vacation-btn,
+    .month-view .vacation-badge .edit-vacation-btn {
+        font-size: 0.9em;
+        padding: 2px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .week-view .day {
+        min-width: 100px;
+        max-width: 250px;
+    }
+
+    .day-view .task-badge,
+    .day-view .vacation-badge {
+        font-size: 0.9em;
+        padding: 8px 12px;
+    }
+
+    .week-view .task-badge,
+    .week-view .vacation-badge {
+        font-size: 0.65em;
+        padding: 3px 5px;
+    }
+
+    .hour-label {
+        width: 50px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .week-view {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .week-view .day {
+        min-width: 100px;
+        max-width: 200px;
+        min-height: 250px;
+    }
+
+    .day-view .day {
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .day-view .task-badge,
+    .day-view .vacation-badge {
+        font-size: 0.8em;
+        padding: 6px 10px;
+    }
+
+    .week-view .task-badge,
+    .week-view .vacation-badge {
+        font-size: 0.6em;
+        padding: 3px 5px;
+    }
+
+    .hour-label {
+        width: 40px;
+        font-size: 12px;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .add-vacation-button {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .footer-text {
+        font-size: 1em;
+    }
+
+    .checklist-buttons {
+        text-align: center;
+    }
+
+    .show-more-btn {
+        font-size: 0.6em;
+        padding: 3px 6px;
+    }
+
+    #dayPicker button {
+        min-width: 60px;
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    #dayPicker button.nav-btn {
+        padding: 10px 12px;
+        min-width: 30px;
+    }
+
+    .task-counter {
+        gap: 8px;
+    }
+
+    .counter-circle {
+        width: 20px;
+        height: 20px;
+        font-size: 0.8em;
+    }
+}
+
+.note-container {
+    margin-bottom: 8px;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.note-badge {
+    font-size: 0.9em;
+    padding: 8px 12px;
+    margin-bottom: 8px;
+    border-radius: 18px;
+    background-color: #f0e68c;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.note-badge:hover {
+    background-color: #e0d670;
+}
+
+.note-badge .edit-note-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 4px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.note-badge .edit-note-btn:hover {
+    color: #007bff;
+}
+
+@media (max-width: 768px) {
+    .note-badge {
+        font-size: 0.8em;
+        padding: 6px 10px;
+        margin-bottom: 6px;
+        gap: 6px;
+    }
+}
+
+.week-view .note-badge,
+.month-view .note-badge {
+    font-size: 0.75em;
+    padding: 4px 12px 4px 12px;
+    margin-bottom: 4px;
+    border-radius: 18px;
+    background-color: #f0e68c;
+    color: black;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: background-color 0.3s ease;
+    line-height: 1;
+    max-width: 100%;
+}
+
+.week-view .note-badge .edit-note-btn,
+.month-view .note-badge .edit-note-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9em;
+    padding: 2px;
+    color: #333;
+    margin-left: auto;
+    transition: color 0.3s ease;
+}
+
+@media (max-width: 768px) {
+
+    .week-view .note-badge,
+    .month-view .note-badge {
+        font-size: 0.8em;
+        padding: 3px 10px 3px 10px;
+        gap: 3px;
+        line-height: 1;
+        max-width: 100%;
+    }
+
+    .week-view .note-badge .edit-note-btn,
+    .month-view .note-badge .edit-note-btn {
+        font-size: 0.9em;
+        padding: 2px;
+    }
+}
+
+.day.weekend {
+    background-color: #d1e6f8;
+}
+
+.day.public-holiday {
+    background-color: #fbc7c2;
+}
+
+.day.weekend:hover {
+    background-color: #e0f0ff;
+}
+
+.day.public-holiday:hover {
+    background-color: #ffd1d1;
+}
+
+.day-view .day .date {
+    display: none;
+}
+
+#todayBtn {
+    background: #19a73a;
+    color: black;
+}
+
+#todayBtn:hover {
+    background: #21b44175;
+}
+
+#deleteTaskBtn {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: none;
+    /* padding: 12px 18px; */
+    border-radius: 5px;
+    cursor: pointer;
+    /* position: absolute; */
+    /* bottom: 15px; */
+    left: 15px;
+    /* font-size: 14px; */
+    z-index: 10;
+    visibility: visible;
+}
+
+#deleteTaskBtn:hover {
+    background-color: #f5c6cb;
+}
+
+#modalDateDisplay {
+    font-weight: 600;
+    color: #007bff;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+
+.prenocovanie-badge {
+    background-color: #9e9e9e !important;
+    color: white !important;
+    margin-left: 40px;
+}
+
+.counter-circle.Prenocovanie {
+    background-color: #9e9e9e;
+    color: white;
+}
+
+#prenocovanieCheckboxLabel,
+#detailsPrenocovanieCheckboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#printLabel {
+    /* background-color: #28a745;
+    color: white; */
+    border: none;
+    padding: 10px 22px;
+    font-weight: 700;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+}
+
+/* #printLabel:hover {
+    background-color: #218838;
+} */
+ .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: nowrap; /* nedovolí zalomenie */
+    gap: 10px; /* rovnomerné medzery medzi tlačidlami */
+    margin-top: 25px;
+}
+
+.modal-buttons button {
+    flex-shrink: 0; /* nedovolí zmenšovanie tlačidiel */
+}
+/* --- UPRAVA: zarovnanie tlačidiel v jednom riadku bez zmeny veľkosti --- */
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: nowrap;   /* zabránime zalomeniu */
+    gap: 10px;           /* rovnomerný odstup medzi tlačidlami */
+    margin-top: 25px;
+    text-align: right;   /* zachovanie pôvodného vzhľadu */
+}
+
+.modal-buttons button {
+    flex-shrink: 0;      /* neumožní zmenšovanie tlačidiel */
+    padding: 10px 22px;  /* zachovaná pôvodná veľkosť */
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+}
+/* --- UPRAVA FARIEB: výmena farieb medzi "Ťažné zariadenie" a "Prenocovanie" --- */
+
+/* ŤAŽNÉ ZARIADENIE – po novom sivé */
+.task-badge.Tazne_zariadenie,
+.task.Tazne_zariadenie {
+    background-color: #7b1fa2 !important;
+    color: white !important;
+}
+
+.counter-circle.Tazne_zariadenie {
+    background-color: #7b1fa2 !important;
+    color: white !important;
+}
+
+/* PRENOCOVANIE – po novom oranžové */
+.task-badge.prenocovanie-badge {
+    background-color: #ff9800 !important;
+    color: white !important;
+    margin-left: 0 !important; /* Odstránenie posunu doprava */
+    padding: 5px 8px; /* Zosúladenie s .task-badge */
+    border-radius: 15px; /* Zosúladenie s .task-badge */
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Zosúladenie s .task-badge */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Zosúladenie tieňa */
+}
+
+.counter-circle.Prenocovanie {
+    background-color: #ff9800 !important;
+    color: black !important;
+}
+/* Pôvodné štýly pre .modal-buttons button */
+.modal-buttons button {
+    flex-shrink: 0;
+    padding: 10px 22px;
+    font-weight: 700;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Pridaný transform pre plynulý prechod */
+}
+
+/* Špecifické štýly pre #closeDetails (tlačidlo "Zavrieť") */
+.modal-buttons button#closeDetails {
+    padding: 18px 30px;
+    font-size: 16px;
+    background-color: #aaa;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Zachovanie prechodu */
+}
+
+/* Hover efekt pre tlačidlo "Zavrieť" */
+.modal-buttons button#closeDetails:hover {
+    background-color: #999; /* Tmavší odtieň pre hover */
+    transform: scale(1.05); /* Jemný zoom efekt */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Pridaný tieň pre zvýraznenie */
+}
+
+/* Visual indicator for printable characters in extraInfo field */
+#extraInfo {
+    background: linear-gradient(to right,
+            #e8f5e9 0%,
+            #e8f5e9 calc(30ch - 10px),
+            #fff3e0 calc(30ch - 10px),
+            #fff3e0 100%);
+    transition: background 0.3s ease;
+    padding-left: 10px;
+}
+
+#extraInfo:focus {
+    background: linear-gradient(to right,
+            #c8e6c9 0%,
+            #c8e6c9 calc(30ch - 10px),
+            #ffe0b2 calc(30ch - 10px),
+            #ffe0b2 100%);
+}
+.day-container .prenocovanie-badge {
+    margin-left: 0 !important;
+    padding: 5px 8px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+/* Pozadie zostáva tvoje aktuálne */
+body {
+  background: url('tvoj-obrazok.jpg') center center fixed;
+  background-size: cover;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Vrstva s vločkami – leží medzi pozadím a kalendárom */
+.snowflakes {
+  position: fixed;     /* alebo absolute, ak máš iný kontajner */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;   /* aby si mohol klikať na kalendár */
+  z-index: 1;             /* vločky budú ZA kalendárom – kalendár má z-index vyšší */
+}
+
+.snowflake {
+  color: #fff;
+  font-size: 2.5em;       /* veľkosť vločiek – môžeš si upraviť */
+  position: absolute;
+  top: -10%;
+  animation: fall linear infinite;
+  user-select: none;
+  opacity: 0.9;
+  text-shadow: 0 0 10px rgba(255,255,255,0.8);
+}
+
+/* Každá vločka má iné oneskorenie a rýchlosť */
+.snowflake:nth-child(1) { left: 10%; animation-duration: 12s; animation-delay: 0s; }
+.snowflake:nth-child(2) { left: 20%; animation-duration: 15s; animation-delay: 2s; font-size: 3em; }
+.snowflake:nth-child(3) { left: 30%; animation-duration: 10s; animation-delay: 5s; }
+.snowflake:nth-child(4) { left: 40%; animation-duration: 18s; animation-delay: 1s; font-size: 3.5em; }
+.snowflake:nth-child(5) { left: 50%; animation-duration: 14s; animation-delay: 8s; }
+.snowflake:nth-child(6) { left: 60%; animation-duration: 11s; animation-delay: 3s; font-size: 2.8em; }
+.snowflake:nth-child(7) { left: 70%; animation-duration: 16s; animation-delay: 6s; }
+.snowflake:nth-child(8) { left: 80%; animation-duration: 13s; animation-delay: 4s; font-size: 3.2em; }
+.snowflake:nth-child(9) { left: 90%; animation-duration: 17s; animation-delay: 7s; }
+.snowflake:nth-child(10){ left: 15%; animation-duration: 14s; animation-delay: 9s; font-size: 3em; }
+.snowflake:nth-child(11){ left: 55%; animation-duration: 19s; animation-delay: 2s; }
+.snowflake:nth-child(12){ left: 85%; animation-duration: 12s; animation-delay: 5s; font-size: 3.5em; }
+
+/* Animácia padania + jemné kývanie */
+@keyframes fall {
+  0%   { transform: translateY(-10vh) translateX(0)    rotate(0deg); }
+  100% { transform: translateY(110vh) translateX(100px) rotate(360deg); }
+}
+
+/* Aby kalendár bol nad vločkami */
+#calendar, .calendar, table, whatever-je-tvoj-kalendar {
+  position: relative;
+  z-index: 10;           /* toto je dôležité! */
+  background: rgba(255, 255, 255, 0.85); /* alebo aký máš teraz */
+  backdrop-filter: blur(3px); /* pekný efekt, ak chceš */
+}
+/* === ODSTRÁNENIE BIELEHO POZADIA KALENDÁRA === */
+#calendar {
+    background: transparent !important;
+    backdrop-filter: none !important;
+}
+
+/* === ZABRÁNENIE POSÚVANIA OBSAHU KVÔLI VLOČKÁM === */
+html, body {
+    overflow-x: hidden !important;
+}
+
+/* === UPRAVENÁ ANIMÁCIA SNEŽENIA — bez bočného horizontálneho posuvu === */
+@keyframes fall {
+  0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); }
+  100% { transform: translateY(110vh) translateX(0) rotate(360deg); }
+}
+
+.snowflakes {
+  overflow: hidden;
+}
+
+.snowflake {
+  will-change: transform;
+  pointer-events: none;
+  position: absolute;
+  white-space: nowrap;
+}
+
+/* Zrušiť duplicate background v body */
+body {
+    background: none !important;
+}
+/* Rozdelenie badge na ľavú a pravú stranu */
+.task-badge {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 8px;
+}
+
+.task-left {
+    flex: 1;
+    padding-right: 6px;
+}
+
+.task-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 0 12px 12px 0;
+}
+#searchContainer {
+    margin: 20px auto;
+    max-width: 600px;
+}
+
+#searchInput {
+    width: 70%;
+    padding: 10px;
+    border-radius: 6px 0 0 6px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+}
+
+#searchBtn {
+    padding: 10px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+#searchBtn:hover {
+    background: #0056b3;
+}
+
+#searchResults {
+    margin-top: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+#searchResults .task-badge {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#searchResults .view-details-btn {
+    background: #ffc107;
+    color: black;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#searchResults .view-details-btn:hover {
+    background: #e0a800;
+}
+.close-modal:hover {
+    color: #000;
+}
+#searchBtn:hover {
+    background: #0056b3 !important;
+    transform: scale(1.05);
+    transition: all 0.2s;
+}
+
+#searchInput:focus {
+    outline: none;
+    border-color: #0056b3;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5);
+}
+/* Perfektné centrovanie modálneho okna */
+.modal {
+    display: none; /* skryté defaultne */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal:not(.hidden) {
+    display: flex; /* aktivuje sa len keď je viditeľný */
+}
+#znacka {
+    text-transform: uppercase !important;
+}
+/* ==============================
+   ZRUSENA / ODOVZDANA ZAKAZKA
+   ============================== */
+
+/* spolocne – aby overlay fungoval */
+.task-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+/* aby bol text nad overlayom */
+.task-badge .task-left,
+.task-badge .task-right {
+  position: relative;
+  z-index: 2;
+}
+
+/* --- ZRUSENA: zosiviet + tenke X cez celu badge --- */
+.task-badge.is-cancelled {
+  filter: grayscale(1);
+  opacity: 0.75;
+}
+
+.task-badge.is-cancelled::before,
+.task-badge.is-cancelled::after {
+  content: "";
+  position: absolute;
+  left: -10%;
+  top: 50%;
+  width: 120%;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 3;
+  transform-origin: center;
+}
+
+.task-badge.is-cancelled::before {
+  transform: rotate(12deg);
+}
+
+.task-badge.is-cancelled::after {
+  transform: rotate(-12deg);
+}
+
+/* --- ODOVZDANA: PRAVA polovica seda, LAVA ostava povodna farba --- */
+.task-badge.is-delivered::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(235, 235, 235, 0.75);
+  z-index: 1; /* pod textom, nad pozadim */
+  pointer-events: none;
+}
+
+/* ak je naraz zrusena aj odovzdana, nech vyhra zrusena */
+.task-badge.is-cancelled.is-delivered::after {
+  display: none;
+}
+#detailsChecklist label{ pointer-events: auto !important; cursor: pointer; }
+#detailsChecklist label input{ pointer-events: auto !important; }
+/* ==============================
+   ZAKAZKA ODOVZDANA
+   ============================== */
+
+.task-badge {
+  position: relative;
+  overflow: hidden;
+}
+
+/* text nad overlayom */
+.task-badge .task-left,
+.task-badge .task-right {
+  position: relative;
+  z-index: 2;
+}
+
+/* prava polovica seda */
+.task-badge.is-delivered::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  background: rgba(220, 220, 220, 0.75);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ak je zrusena aj odovzdana, vyhra zrusena */
+.task-badge.is-cancelled.is-delivered::after {
+  display: none;
+}
+/* ===== DENNY PREHĽAD: DATUM HORE V RAMIKU ===== */
+.day-view .date-title{
+  display: inline-block !important;
+  background: #fff !important;
+  border: 2px solid #007bff !important;
+  border-radius: 12px !important;
+  padding: 8px 14px !important;
+  margin: 0 auto 16px auto !important;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18) !important;
+  font-weight: 800 !important;
+  color: #007bff !important;
+}
+/* ===== DENNY PREHĽAD: CASY V RAMIKU (len okolo textu) ===== */
+.day-view .hour-label{
+  display: inline-block !important;
+  background: #fff !important;
+  border: 2px solid #007bff !important;
+  border-radius: 8px !important;
+  padding: 3px 8px !important;
+  margin-right: 12px !important;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+  font-weight: 800 !important;
+  color: #007bff !important;
+
+  width: auto !important;
+  min-width: 0 !important;
+}
+.day-view .hour-block{
+  display: flex;
+  align-items: flex-start;
+}
+/* THULE nalepka v sekcii Noc */
+.thule-night-badge{
+  font-size: 1em;            /* o 1 vacsie ako bezne 0.8em badge */
+  font-weight: 800;          /* hrubsie */
+  padding: 10px 14px;        /* podobne ako day-view badge */
+  border-radius: 12px;
+  background: #111;          /* kludne zmen na co chces */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;   /* text na stred */
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  white-space: nowrap;
+}
+/* THULE v NOCI – cierny podklad, biele pismo, vacsie */
+.day-view .thule-night-badge{
+  background: #000;
+  color: #fff;
+  font-weight: 800;
+  font-size: 16px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 4px 0 8px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  white-space: nowrap;
+}
+/* ===== DETAIL HEADER: NADPIS VLAVO, TLACIDLO VPRAVO ===== */
+.details-header{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+}
+
+.details-header h2{
+  margin:0 !important;
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+/* tlacidlo */
+#printProtocolA4{
+  flex: 0 0 auto !important;
+  background:#1976d2 !important;
+  color:#fff !important;
+  border:none !important;
+  border-radius:6px !important;
+  padding:6px 14px !important;
+  font-weight:800 !important;
+  font-size:1.6em !important; /* ako nadpis */
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
+/* ===== DETAIL HEADER: NADPIS + TLACIDLO VPRAVO (NEPREKRYTE) ===== */
+#detailsModal .modal-content .details-header{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  position: sticky !important;   /* aby bolo stale hore ked scrollujes */
+  top: 0 !important;
+  background: #fff !important;
+  z-index: 9999 !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+#detailsModal .modal-content .details-header h2{
+  margin:0 !important;
+}
+
+#detailsModal .modal-content #printProtocolA4{
+  background:#1976d2 !important;
+  color:#fff !important;
+  border:none !important;
+  border-radius:6px !important;
+  padding:8px 14px !important;
+  font-weight:800 !important;
+  font-size: 1.1em !important;   /* podobne ako nadpis, ale aby to nebolo obrovske */
+  white-space:nowrap !important;
+  cursor:pointer !important;
+  position: relative !important;
+  z-index: 10000 !important;
+  pointer-events: auto !important;
+}
+@media print {
+  body > *:not(#printArea) { display: none !important; }
+
+  #printArea {
+    display: block !important;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 48mm;
+    height: 27mm;
+    padding: 2mm;
+    font-family: Arial, sans-serif;
+    font-size: 7pt;
+    line-height: 1.2;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  #printArea .row { margin-bottom: 1.5mm; word-wrap: break-word; }
+  #printArea .label { font-weight: bold; }
+  #printArea .prenocovanie {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 1mm;
+    font-size: 6pt;
+  }
+
+  @page { size: 48mm 27mm; margin: 0; }
+}
+/* iOS print hint overlay */
+.ios-print-hint {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999999;
+  padding: 16px;
+}
+.ios-print-hint .box {
+  background: #fff;
+  border-radius: 14px;
+  max-width: 420px;
+  width: 100%;
+  padding: 16px;
+  font-family: Arial, sans-serif;
+  color: #000;
+}
+.ios-print-hint .title {
+  font-weight: 800;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.ios-print-hint .steps {
+  font-size: 14px;
+  line-height: 1.35;
+}
+.ios-print-hint .steps b {
+  font-weight: 800;
+}
+.ios-print-hint .btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+.ios-print-hint button {
+  flex: 1;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.ios-print-hint .ok {
+  background: #111;
+  color: #fff;
+}
+.ios-print-hint .close {
+  background: #eee;
+  color: #111;
+}
+@supports (-webkit-touch-callout: none) {
+  .day-view {
+    padding: 6px;
+  }
+  .task {
+    padding: 6px;
+    font-size: 13px;
+  }
+}
+@supports (-webkit-touch-callout: none) {
+  body {
+    background: #f1f3f6; /* alebo tvoje existujúce pozadie */
+  }
+
+  .day-view {
+    max-width: 860px;
+    margin: 12px auto;
+    background: transparent; /* alebo biela karta */
+  }
+}
+@media (min-width: 768px) and (max-width: 1200px) {
+  .day-view {
+    max-width: 880px;
+    margin: 12px auto;
+    background: #fff;
+    border-radius: 14px;
+    padding: 10px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+}
+/* TABLET: zuzenie denného prehľadu (iPad + Android) */
+@media (min-width: 768px) and (max-width: 1200px) {
+  .day-view {
+    max-width: 900px;
+    margin: 12px auto;
+  }
+}
+.row {
+  display: grid;
+  grid-template-columns: 155px 1fr;
+  column-gap: 8px;
+  margin-bottom: 5px;
+}
+.label {
+  font-weight: bold;
+}
+.row{
+  display:grid;
+  grid-template-columns:155px 1fr;
+  column-gap:8px;
+  margin-bottom:5px;
+  align-items:start;
+}
+.label{ font-weight:bold; }
+/* Stabilne 2-stlpcove riadky (nerozbije sa ako .row) */
+.kv {
+  width: 100%;
+  border-collapse: collapse;
+}
+.kv td {
+  padding: 0 0 6px 0;
+  vertical-align: top;
+  font-size: 12.5px;
+}
+.kv td.k {
+  width: 155px;
+  font-weight: 700;
+  padding-right: 10px;
+}
+.kv td.v {
+  word-break: break-word;
+}
+.required-star {
+  color: #d32f2f !important; /* cervena */
+  margin-left: 4px;
+  font-weight: bold;
+}
+/* =========================
+   STATISTIKY – VIZUAL (stats page)
+   vloz na KONIEC style.css
+========================= */
+
+.stats-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(255,255,255,0.88);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.stats-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #1f2a37;
+  letter-spacing: 0.2px;
+}
+
+.stats-back-btn {
+  border: 1px solid rgba(0,0,0,0.12);
+  background: white;
+  border-radius: 12px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 800;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.stats-back-btn:hover {
+  transform: translateY(-1px);
+}
+
+.stats-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.stats-controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr;
+  gap: 10px 12px;
+  align-items: center;
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.10);
+}
+
+.stats-controls label {
+  margin: 0;
+  font-weight: 800;
+  color: #334155;
+}
+
+.stats-controls input[type="date"]{
+  width: 100%;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+  background: white;
+}
+
+.stats-controls button {
+  grid-column: 1 / -1;
+  border: none;
+  border-radius: 14px;
+  padding: 12px 14px;
+  font-weight: 900;
+  cursor: pointer;
+  background: #eef2ff;
+  color: #1f2a37;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stats-controls button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(0,0,0,0.12);
+}
+
+.stats-controls button.primary {
+  background: #007bff;
+  color: white;
+}
+
+/* obsah */
+#statsContent {
+  margin-top: 14px;
+}
+
+/* karta */
+.stats-card {
+  background: rgba(255,255,255,0.92);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 18px;
+  padding: 16px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.10);
+}
+
+.stats-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.stats-card h4 {
+  margin: 14px 0 8px 0;
+  font-size: 14px;
+  font-weight: 900;
+  color: #334155;
+  text-transform: uppercase;
+  letter-spacing: 0.2px;
+}
+
+/* tabulka */
+.stats-card table {
+  width: 100%;
+  border-collapse: collapse;
+  overflow: hidden;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.08);
+}
+
+.stats-card thead th {
+  text-align: left;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  padding: 10px 12px;
+  background: rgba(0,123,255,0.08);
+  color: #1f2a37;
+}
+
+.stats-card tbody td {
+  padding: 10px 12px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  font-weight: 700;
+  color: #334155;
+}
+
+.stats-card tbody tr:hover td {
+  background: rgba(0,0,0,0.03);
+}
+
+/* canvas */
+.stats-card canvas {
+  margin-top: 10px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 14px;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,0.06);
+}
+
+/* mobil */
+@media (max-width: 720px) {
+  .stats-controls {
+    grid-template-columns: 1fr;
+  }
+  .stats-controls button {
+    grid-column: auto;
+  }
+}
+/* =========================
+   STATISTIKY – HERO HEADER
+========================= */
+
+.stats-header {
+  display: none !important; /* zrusime stary biely pas */
+}
+
+/* hero sekcia */
+.stats-hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 16px 26px;
+  margin-bottom: 20px;
+
+  background: transparent; /* ziadny biely pas */
+}
+
+/* tlacidlo spat */
+.stats-back-btn {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+
+  border: none;
+  background: rgba(255,255,255,0.9);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 18px;
+  font-weight: 900;
+  cursor: pointer;
+
+  box-shadow: 0 8px 22px rgba(0,0,0,0.15);
+}
+
+.stats-back-btn:hover {
+  transform: translateY(-1px);
+}
+
+/* velka ikona */
+.stats-hero-icon {
+  font-size: 56px;
+  line-height: 1;
+}
+
+/* velky centrovany nazov */
+.stats-hero-title {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-align: center;
+  color: #1f2a37;
+}
+
+/* obsah trochu nizsie */
+.stats-page {
+  padding-top: 0;
+}
+/* =========================
+   STATISTIKY – DLAZDICE
+========================= */
+
+.stats-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* DATUMY – EXTRA VELKE */
+.stats-date-box {
+  display: flex;
+  gap: 40px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.date-field span {
+  font-size: 20px;
+  font-weight: 900;
+  text-align: center;
+}
+
+.date-field input {
+  padding: 20px 26px;
+  font-size: 22px;
+  font-weight: 900;
+  border-radius: 20px;
+  border: none;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.35);
+}
+
+.date-field input {
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.2);
+  font-size: 15px;
+  font-weight: 700;
+}
+/* GRID DLAZDIC – VZDY 2 STLPCOVE ROZLOZENIE */
+.stats-tiles {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* ⬅️ VZDY 2 */
+  gap: 32px;
+  justify-items: center;
+  margin-top: 40px;
+}
+
+
+/* JEDNA DLAZDICA */
+.stats-tile {
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1; /* stvorec */
+  
+  background: rgba(255,255,255,0.88);
+  border-radius: 28px;
+  border: none;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.stats-tile:hover {
+  transform: scale(1.05);
+  box-shadow: 0 26px 60px rgba(0,0,0,0.35);
+}
+
+/* HLAVNA (SUMAR) */
+.stats-tile.primary {
+  background: linear-gradient(135deg, #1e88e5, #42a5f5);
+  color: white;
+}
+
+/* IKONA */
+.tile-icon {
+  font-size: 72px; /* ⬅️ VEĽKÁ IKONA */
+}
+
+/* TEXT */
+.tile-text {
+  font-size: 20px;
+  font-weight: 900;
+  text-align: center;
+}
+/* ZRUSENIE BIELEHO POZADIA STATISTIK */
+.stats-page {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* ak tam je nejaky card wrapper */
+.stats-card,
+.stats-controls {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* === FORCE: statistiky tlacidla VZDY 2 stlpce === */
+.stats-tiles{
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 32px !important;
+  justify-items: stretch !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
+/* aby sa dlazdice nepchali do uzkeho stlpca */
+.stats-controls{
+  width: min(1100px, 92vw) !important;
+  margin: 0 auto !important;
+}
+
+/* dlazdica nech vyplni stlpec */
+.stats-tile{
+  width: 100% !important;
+  max-width: none !important;
+  aspect-ratio: 1 / 1 !important;
+}
+/* ===== FIX: dlazdice nesmu spanovat cely riadok ===== */
+.stats-tiles .stats-tile{
+  grid-column: auto !important;  /* zrusí grid-column: 1/-1 */
+}
+
+/* a to stare pravidlo obmedzime len na hlavne tlacidla (ak nejake ostali) */
+.stats-controls > button{
+  grid-column: 1 / -1; /* nech platí len pre tlacidla priamo v .stats-controls */
+}
+
+/* ===== 2 stlpce napevno ===== */
+.stats-tiles{
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 32px !important;
+  width: min(1100px, 92vw) !important;
+  margin: 0 auto !important;
+}
+
+/* dlazdice nech su velke, ale nie sialene */
+.stats-tiles .tile-icon{
+  font-size: 64px !important;
+}
+.stats-tiles .tile-text{
+  font-size: 20px !important;
+  font-weight: 900 !important;
+}
+/* === ZMENSENIE DLAZDIC NA POLOVICU (FINAL) === */
+
+/* grid ostava 2-stlpcovy */
+.stats-tiles{
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 20px !important;
+}
+
+/* samotna dlazdica – mensia */
+.stats-tiles .stats-tile{
+  aspect-ratio: 1 / 1 !important;
+  padding: 10px !important;
+  border-radius: 20px !important;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.25) !important;
+}
+
+/* IKONA – zmensena cca na polovicu */
+.stats-tiles .tile-icon{
+  font-size: 32px !important;   /* bolo ~64+ */
+  line-height: 1 !important;
+}
+
+/* TEXT – mensi, ale stale citatelny */
+.stats-tiles .tile-text{
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+
+/* datumy tiez mierne spat */
+.stats-date-box{
+  gap: 24px !important;
+}
+
+.date-field span{
+  font-size: 14px !important;
+}
+
+.date-field input{
+  font-size: 16px !important;
+  padding: 12px 16px !important;
+  border-radius: 14px !important;
+}
+/* === MENSIE DLAZDICE, ALE VELKY TEXT + IKONA (FINAL) === */
+
+/* 2 stlpce ostavaju */
+.stats-tiles{
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 18px !important;
+  justify-items: center !important;   /* dlazdice budu v strede stlpcov */
+}
+
+/* dlazdica bude mensia (nebude vyplnat cely stlpec) */
+.stats-tiles .stats-tile{
+  width: 100% !important;
+  max-width: 200px !important;        /* ⬅️ tu realne zmensis dlazdicu */
+  aspect-ratio: 1 / 1 !important;
+  padding: 14px !important;
+  border-radius: 22px !important;
+}
+
+/* vrati velkost ikonky a textu (povodna / velka) */
+.stats-tiles .tile-icon{
+  font-size: 64px !important;
+}
+
+.stats-tiles .tile-text{
+  font-size: 18px !important;
+  font-weight: 900 !important;
+}
+body::before { pointer-events: none !important; }
+.stats-page, .stats-tiles, .stats-tile, .stats-date-box { position: relative; z-index: 5; }
+/* === VYSTUP STATISTIK: velky panel === */
+#statsContent{
+  width: min(1100px, 92vw) !important;
+  margin: 22px auto 10px !important;
+}
+
+/* karta vysledku */
+#statsContent .stats-card{
+  background: rgba(255,255,255,0.92) !important;
+  border-radius: 22px !important;
+  padding: 20px 18px !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,0.22) !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+}
+
+/* nadpisy vacsie */
+#statsContent .stats-card h3{
+  font-size: 24px !important;
+  font-weight: 900 !important;
+  margin: 0 0 12px 0 !important;
+}
+#statsContent .stats-card h4{
+  font-size: 16px !important;
+  font-weight: 900 !important;
+  margin: 16px 0 10px 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: .2px !important;
+}
+
+/* text vacsi */
+#statsContent .stats-card p,
+#statsContent .stats-card li,
+#statsContent .stats-card div{
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+}
+
+/* tabulky citatelnejsie */
+#statsContent table{
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border-radius: 16px !important;
+  overflow: hidden !important;
+}
+#statsContent thead th{
+  font-size: 14px !important;
+  padding: 12px 14px !important;
+}
+#statsContent tbody td{
+  font-size: 18px !important;
+  padding: 12px 14px !important;
+  font-weight: 800 !important;
+}
+
+/* grafy vacsie */
+#statsContent canvas{
+  width: 100% !important;
+  max-height: 420px !important;
+}
+/* === MODAL MUSI BYT NAVRCHU === */
+.modal {
+  z-index: 99999 !important;
+}
+
+.modal-content {
+  position: relative;
+  z-index: 100000 !important;
+}
+
+/* === ked je otvoreny modal, pozadie nesmie byt klikatelne === */
+body.modal-open #calendar,
+body.modal-open header,
+body.modal-open #viewControls,
+body.modal-open #dayPicker,
+body.modal-open #searchContainer,
+body.modal-open #searchResults {
+  pointer-events: none !important;
+}
+
+/* optional: nech sa tvaria “neaktivne” */
+body.modal-open #calendar,
+body.modal-open #dayPicker {
+  filter: blur(1px);
+}
+/* ===== DETAIL MODAL MUSI BYT NAVRCHU ===== */
+.modal{
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+}
+
+.modal .modal-content{
+  position: relative !important;
+  z-index: 100000 !important;
+}
+
+/* ===== ked je modal otvoreny, pozadie nesmie brat klik ===== */
+body.modal-open #calendar,
+body.modal-open header,
+body.modal-open #calendar-controls,
+body.modal-open #viewControls,
+body.modal-open #dayPicker,
+body.modal-open #searchContainer,
+body.modal-open .add-vacation-button,
+body.modal-open .footer-text{
+  pointer-events: none !important;
+}
+#spz { text-transform: uppercase; }
+/* Blur LEN keď je otvorený modal */
+body.modal-open #calendar {
+  backdrop-filter: blur(3px);
+}
+
+/* Normálny stav – bez blur */
+#calendar {
+  backdrop-filter: none !important;
+}
+.modal.hidden {
+  display: none !important;
+  pointer-events: none !important;
+}
+/* Zrus hover pozadia na celej bunke dna */
+.day:hover,
+.day-container:hover .day {
+  background: inherit !important;
+}
+/* Jemny hover efekt na zakazky */
+.task-badge {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  position: relative; /* kvoli z-index */
+}
+
+.task-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+  z-index: 5;
+}
+/* Den v kalendari – vzdy biele pozadie, aj pri hoveri */
+.day,
+.day:hover,
+.day-container:hover .day {
+  background-color: #ffffff !important;
+}
+.day:hover .header,
+.day:hover .hour-block,
+.day:hover .date {
+  background-color: #ffffff !important;
+}
+/* ===== PECIATKA ===== */
+.stamp-wrap{
+  display:flex;
+  justify-content:center;
+  margin: 28px 0 10px;
+  pointer-events:none;
+}
+
+.stamp-svg{
+  width: 190px;
+  height: 190px;
+  opacity: 0.95;
+  filter: drop-shadow(0 3px 10px rgba(0,0,0,.28));
+}
+
+/* otaca sa len okolie */
+.stamp-rotate{
+  transform-origin: 50% 50%;
+  animation: stampSpin 22s linear infinite;
+}
+
+/* kruhy */
+.stamp-ring{
+  fill: none;
+  stroke: #111;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* vonkajsi kruh - peciatkovy */
+.stamp-ring-outer{
+  stroke-width: 7;
+  stroke-dasharray: 10 6;
+}
+
+/* bodkovany kruh (teraz je viac vnutri) */
+.stamp-ring-inner{
+  stroke-width: 4;
+  stroke-dasharray: 2 7;
+  opacity: 0.9;
+}
+
+/* text dokola (TROSKU VACSIE) */
+.stamp-circle-text{
+  fill: #111;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 24px;          /* 👈 zvacsene */
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+  dominant-baseline: middle;
+}
+
+/* stred */
+.stamp-center{
+  fill: #111;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 36px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* jemny "ink/print" feeling */
+.stamp-ring,
+.stamp-circle-text,
+.stamp-center{
+  filter: blur(0.25px);
+}
+
+/* rotacia */
+@keyframes stampSpin{
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* mobil */
+@media (max-width: 520px){
+  .stamp-svg{ width: 155px; height: 155px; }
+  .stamp-circle-text{ font-size: 20px; letter-spacing: 2.6px; }
+  .stamp-center{ font-size: 30px; }
+}
+.monthYearWrap{
+  position: relative;
+  display: inline-flex;      /* nech to neroztahuje sipky */
+  align-items: center;
+  justify-content: center;
+}
+
+#monthYear{
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+}
+
+/* aby sneh nikdy neblokoval kliky */
+.snowflakes,
+.snowflake {
+  pointer-events: none !important;
+}
+#calendar-controls { position: relative; z-index: 50; }
+#monthYear { position: relative; z-index: 60; }
+body::before,
+body::after {
+  pointer-events: none !important;
+}
+header,
+#calendar-controls,
+#viewControls {
+  position: relative;
+  z-index: 9999;
+}
+.overlay, .background-layer {
+  pointer-events: none !important;
+}
+/* aby to bolo urcite klikatelne */
+#calendar-controls { position: relative; z-index: 9999; }
+
+.monthYearRow{
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* male tlacidlo vedla datumu */
+#openDateBtn{
+  border: 0;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(3px);
+  padding: 6px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* hover (volitelne) */
+#openDateBtn:hover{
+  background: rgba(255,255,255,0.35);
+}
+body::before, body::after { pointer-events: none; }
+
+
+/* hover efekt na datum */
+#monthYear {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 8px 12px;
+  border-radius: 6px;
+}
+
+#monthYear:hover {
+  background-color: rgba(0, 123, 255, 0.1);
+  transform: scale(1.02);
+}
+
+#monthYear:active {
+  transform: scale(0.98);
+}
+
+/* Optional: Add a calendar icon hint */
+#monthYear::after {
+  content: ' 📅';
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+#monthYear:hover::after {
+  opacity: 0.6;
+}
+
+
+/* ===== JUMP TO DATE PICKER ===== */
+.monthYearRow {
+  position: relative;
+}
+
+#jumpToDate {
+  position: fixed !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 2147483647 !important;
+  width: auto !important;
+  height: auto !important;
+  font-size: 14px !important;
+
+  padding: 10px 12px !important;
+  border: 1px solid rgba(0, 0, 0, 0.2) !important;
+  border-radius: 12px !important;
+  background: #fff !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25) !important;
+}
+
+#jumpToDate:not(.is-open) {
+  display: none !important;
+}
+
+
+.label-printed-time {
+  color: lightgreen !important;
+  font-weight: 800 !important;
+}/* vytlaceny stitok: zosivni iba cas v badge */
+.task-badge.printed-label .task-time{
+  color:#888 !important;
+  font-weight:800;
+}
+/* === VYTLAČENÝ ŠTÍTOK – ČAS (MODRÝ RÁMIK) === */
+.task-badge.printed-label .task-time {
+  color: #1f4fd8 !important;
+  background: #ffffff !important;
+  border: 2px solid #1f4fd8;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-weight: 700;
+  display: inline-block;
+  line-height: 1.1;
+}
+/* === VIDEO POZADIE (NAHRADA chat1.png) === */
+.bg-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.bg-video {
+  filter: blur(1px);
+}
+/* Zvyrzneny POPIS v casti Prenocovanie (po vytlaceni stitku) */
+.label-printed-overnight{
+  font-weight: 900;
+  padding: 2px 6px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.85);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+/* Prenocovanie: po vytlaceni stitku zvyrazni POPIS rovnako ako CAS */
+.label-printed-overnight{
+  display: inline-block;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 8px;
+
+  background: #fff;
+  color: #0b5ed7;              /* modry text */
+  border: 2px solid #0b5ed7;   /* modry ram */
+
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.label-printed-overnight{
+  margin-right: 6px;
+}
+#searchContainer{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:nowrap;
+}
+
+#openAttendance, #searchBtn{
+  white-space:nowrap;
+}
+/* === ZAKAZKA ZRUSENA (vyrazne zrusena) === */
+.task-badge.cancelled,
+.task.cancelled {
+  opacity: 0.35 !important;      /* ešte tmavšie */
+  filter: grayscale(100%);
+  position: relative;
+}
+
+/* X – vyraznejsie a tmavsie */
+.task-badge.cancelled::before,
+.task-badge.cancelled::after,
+.task.cancelled::before,
+.task.cancelled::after {
+  content: "";
+  position: absolute;
+  left: -6%;
+  top: 50%;
+  width: 112%;
+  height: 3px;                   /* hrubsie ciary */
+  background: rgba(0, 0, 0, 0.65);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.task-badge.cancelled::before,
+.task.cancelled::before {
+  transform: translateY(-50%) rotate(20deg);
+}
+
+.task-badge.cancelled::after,
+.task.cancelled::after {
+  transform: translateY(-50%) rotate(-20deg);
+}
+
+/* ❌ skry X-ko (Zakazka zrusena) LEN v dennom nahlade */
+.day-view .checklist-icon.zrusena {
+  display: none !important;
+}
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url('chat2.png') center center / cover no-repeat;
+    z-index: -1;
+}
+
+/* zrušíme staré pozadie v body */
+body {
+    background: none !important;
+}
+/* === ZRUSENA ZAKAZKA: zosivenie + velke X cez cely badge === */
+.task-badge.cancelled {
+  position: relative;
+  filter: grayscale(100%);
+  opacity: 0.65;
+}
+
+/* 2 diagonalne ciary = X */
+.task-badge.cancelled::before,
+.task-badge.cancelled::after {
+  content: "";
+  position: absolute;
+  left: -5%;
+  top: 50%;
+  width: 110%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.35);
+  transform-origin: center;
+  pointer-events: none;
+}
+
+.task-badge.cancelled::before {
+  transform: translateY(-50%) rotate(18deg);
+}
+
+.task-badge.cancelled::after {
+  transform: translateY(-50%) rotate(-18deg);
+}
+/* =========================================================
+   CHECKLIST – FINAL (BEZ KONFLIKTOV)
+   - polozka: sive / modre po zaskrtnuti
+   - checkbox: vzdy biely + zelena fajka v strede
+   - ikonky: 1 alebo 2 emoji vedla seba (nezalomi sa)
+   ========================================================= */
+
+/* nadpis */
+.checklist-grid h3{
+  text-align:center;
+  margin:10px 0 14px;
+}
+
+/* 2 stlpce */
+.checklist-cols{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+  align-items:start;
+}
+
+/* nadpisy stlpcov */
+.checklist-col-title{
+  font-weight:800;
+  letter-spacing:0.06em;
+  font-size:0.95em;
+  color:#111;
+  margin:6px 0 10px;
+  text-align:center;
+}
+
+/* ===== RIADOK ===== */
+.cl-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:8px 12px;
+  border-radius:12px;
+  margin-bottom:10px;
+
+  background:#f2f2f2;           /* sive */
+  border:1px solid #d7d7d7;
+
+  cursor:pointer;
+  transition:background-color .15s ease,
+             border-color .15s ease,
+             box-shadow .15s ease;
+}
+
+/* text */
+.cl-text{
+  font-weight:700;
+  color:#111;
+  font-size:0.95em;
+  line-height:1.15;
+  word-break:break-word;
+}
+
+/* ikonka polozky (1–2 emoji) */
+.cl-ico{
+  height:28px;
+  min-width:28px;        /* 1 emoji ma stale rovnaku sirku */
+  width:auto;            /* 2 emoji mozu byt vedla seba */
+  flex:0 0 auto;
+  margin-right:2px;
+
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:22px;
+  line-height:1;
+  white-space:nowrap;    /* nezalomi vietor pod auto */
+}
+
+/* ===== CHECKBOX: vzdy biely + zelena fajka v strede ===== */
+.cl-item input[type="checkbox"]{
+  -webkit-appearance:none;
+  appearance:none;
+
+  width:28px;
+  height:28px;
+  flex:0 0 28px;
+
+  border:2px solid #c7cdd6;
+  border-radius:6px;
+  background:#fff !important;
+
+  margin:0 !important;
+  cursor:pointer;
+
+  position:relative;     /* kluc pre absolute ::after */
+  display:inline-block;
+  vertical-align:middle;
+}
+
+.cl-item input[type="checkbox"]:checked{
+  background:#fff !important;
+  border-color:#16a34a;  /* zelena */
+}
+
+/* zelena fajka – mensia, presne v strede */
+.cl-item input[type="checkbox"]:checked::after{
+  content:"";
+  position:absolute;
+
+  top:50%;
+  left:50%;
+  transform:translate(-50%, -55%) rotate(45deg);
+
+  width:6px;
+  height:12px;
+
+  border-right:3px solid #16a34a;
+  border-bottom:3px solid #16a34a;
+
+  display:block;
+}
+
+/* ===== RIADOK PRI ZASKRTNUTI (modry) ===== */
+.cl-item:has(input[type="checkbox"]:checked){
+  background:#2f80ff;            /* modre okno */
+  border-color:#1f6fe0;
+  box-shadow:0 2px 6px rgba(47,128,255,0.35);
+}
+
+.cl-item:has(input[type="checkbox"]:checked) .cl-text,
+.cl-item:has(input[type="checkbox"]:checked) .cl-ico{
+  color:#fff;
+}
+
+/* jemny ring okolo checkboxu na modrom pozadi */
+.cl-item:has(input[type="checkbox"]:checked) input[type="checkbox"]{
+  box-shadow:0 0 0 3px rgba(255,255,255,0.45);
+}
+
+/* hover */
+.cl-item:hover{
+  filter:brightness(0.97);
+}
+
+/* ===== KLIKATELNOST CELEHO RIADKU ===== */
+.checklist-section label{
+  pointer-events:auto;
+  cursor:pointer;
+}
+
+.checklist-section label > input[type="checkbox"]{
+  pointer-events:auto;
+}
+
+/* ===== POISTKA: nikdy nekresli fajku na kontajneroch ===== */
+.cl-item::after,
+.cl-item::before{
+  content:none !important;
+}
+
+/* ===== MOBIL ===== */
+@media (max-width:700px){
+  .checklist-cols{
+    grid-template-columns:1fr;
+    gap:14px;
+  }
+}
+.locked-check {
+  opacity: 0.85;
+}
+.locked-check input[disabled] {
+  cursor: not-allowed;
+}
+/* cas v badge (spolocna trieda) */
+.task-time{
+  display:inline-block;
+  padding:2px 8px;
+  border-radius:8px;
+  font-weight:800;
+  line-height:1.1;
+  margin-right:8px;
+}
+
+/* iba ak je stitok vytlaceny */
+.label-printed .task-time{
+  color:#0d47a1 !important;
+  background:#ffffff !important;
+  border:2px solid #1976d2 !important;
+}
+/* ===== Locked checkbox (Stitok vytlaceny) - nech vyzera ako ostatne ===== */
+
+/* default disabled checkbox nedeformuje label */
+.locked-check {
+  opacity: 1 !important;
+}
+
+/* ked je disabled, ale nie je zaskrtnuty -> jemne sedy ako ostatne polozky */
+.locked-check input[type="checkbox"][disabled] + * ,
+.locked-check input[type="checkbox"][disabled] {
+  filter: none;
+}
+
+/* aby disabled nevypadalo vyblednuto */
+.locked-check {
+  color: inherit;
+}
+
+/* ✅ keď je disabled + checked -> rovnaky "modry pill" efekt ako ostatne */
+.locked-check:has(input[type="checkbox"][disabled]:checked) {
+  background: #0b5ed7;      /* rovnake ako tvoje checked */
+  border-color: #0b5ed7;
+  color: #fff;
+}
+
+/* ✅ ikonka/text v modrom stave */
+.locked-check:has(input[type="checkbox"][disabled]:checked) {
+  font-weight: 700;
+}
+
+/* ✅ keď je disabled + unchecked -> rovnaké “polo-sivé” ako ostatne */
+.locked-check:has(input[type="checkbox"][disabled]:not(:checked)) {
+  background: #f3f3f3;
+  border-color: #d9d9d9;
+  color: #222;
+}
+/* Locked-check: nech disabled checkbox nezhodi dizajn */
+.locked-check {
+  opacity: 1 !important;
+}
+
+/* ked je locked a checked, nech label vyzera ako ostatne checked (modry) */
+.locked-check:has(input[type="checkbox"]:checked) {
+  background: #0b5ed7;
+  border-color: #0b5ed7;
+}
+
+.locked-check:has(input[type="checkbox"]:checked) .cl-text,
+.locked-check:has(input[type="checkbox"]:checked) .cl-ico {
+  color: #fff;
+}
+.locked-check {
+  position: relative;
+}
+.locked-check::after{
+  content: "🔒";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.9;
+}
+/* aby sa pseudo-element mal kam kreslit */
+.cl-item.locked-check{
+  position: relative;
+  overflow: visible; /* poistka, keby cl-item mal hidden */
+}
+
+/* zamok vpravo */
+.cl-item.locked-check::after{
+  content: "🔒";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  line-height: 1;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* nech zamok ostane biely v modrom stave */
+.cl-item.locked-check:has(input[type="checkbox"]:checked)::after{
+  filter: brightness(1.2);
+}
+.cl-item.locked-check{
+  padding-right: 38px; /* miesto pre zamok */
+}
+.locked-info{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin:10px 0 6px;
+  font-weight:900;
+  letter-spacing:0.6px;
+  color:#111;
+  text-transform:uppercase;
+  font-size:0.85em;
+}
+
+.locked-info .lock-ico{
+  font-size:16px;
+  line-height:1;
+}
+
+.locked-info-text{
+  padding:2px 10px;
+  border-radius:10px;
+  background:#f2f2f2;
+  border:1px solid #d7d7d7;
+}
+.cl-item.locked-check{
+  cursor: not-allowed;
+}
+.cl-item.locked-check input[disabled]{
+  cursor: not-allowed;
+}
+/* ===== LOCKED CHECKLIST ITEM – hint na cele tlacidlo ===== */
+.cl-item.locked-check{
+  cursor: not-allowed;
+}
+
+/* aj vnutorne prvky nech maju rovnaky kurzor */
+.cl-item.locked-check *{
+  cursor: not-allowed;
+}
+
+/* jemny vizualny hint, ze je zamknute (neprehanat) */
+.cl-item.locked-check{
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
+}
+
+/* hover – nic nemenit, len ukazat ze sa neda klikat */
+.cl-item.locked-check:hover{
+  filter: brightness(0.98);
+}
+.checklist-spacer{
+  height: 24px;
+}
+/* =========================
+   RESPONSIVE PATCH (MOBIL/TABLET)
+   vloz na KONIEC style.css
+========================= */
+
+/* TABLET + MOBIL */
+@media (max-width: 900px){
+
+  /* 1) mobil musi vediet scrollovat (teraz mas overflow:hidden) */
+  body{
+    overflow: auto !important;
+    padding: 12px !important;
+  }
+
+  /* 2) ovladanie hore nech sa nezlomi */
+  #calendar-controls{
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+  #calendar-controls button{
+    padding: 10px 14px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+  #monthYear{
+    font-size: 1.2em;
+  }
+
+  /* 3) view tlacidla nech sa zalamuju */
+  #viewControls{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  #viewControls button{
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 10px 12px;
+  }
+
+  /* 4) kalendar nech je tesnejsi */
+  #calendar{
+    gap: 8px;
+  }
+  .day{
+    padding: 8px;
+  }
+}
+
+/* MOBIL */
+@media (max-width: 768px){
+
+  /* ===== MODAL: full-screen (najdolezitejsie) ===== */
+  .modal{
+    align-items: stretch !important;
+    justify-content: stretch !important;
+  }
+
+  .modal-content{
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+
+    border-radius: 0 !important;
+    padding: 14px 12px !important;
+
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* nadpisy nech nie su obrovske */
+  .modal-content h2{
+    font-size: 1.25em;
+    line-height: 1.15;
+  }
+
+  /* ===== tlacidla v modale: wrap + pohodlne na prst ===== */
+  .modal-buttons{
+    flex-wrap: wrap !important;     /* ty mas dnes nowrap */
+    justify-content: center !important;
+    gap: 10px !important;
+  }
+
+  .modal-buttons button{
+    flex: 1 1 45%;
+    min-width: 140px;
+    padding: 12px 14px !important;
+    font-size: 15px;
+  }
+
+  /* zavriet nech je kludne na cely riadok */
+  .modal-buttons button#closeDetails,
+  .modal-buttons button#cancelModal{
+    flex: 1 1 100%;
+  }
+
+  /* ===== checklist 2 stlpce -> 1 stlpec (ty to mas uz na 700px, tu to len zosuladime) ===== */
+  .checklist-cols{
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* inputy nech su vyssie (tap target) */
+  form input[type="text"],
+  form select,
+  form input[type="date"],
+  form input[type="tel"]{
+    padding: 12px 12px;
+    border-radius: 10px;
+  }
+
+  /* search bar nech sa nezlamuje divne */
+  #searchContainer{
+    flex-wrap: wrap !important;
+  }
+  #searchInput{
+    width: 100% !important;
+  }
+  #searchBtn{
+    width: 100% !important;
+  }
+}
+
+/* EXTRA MALY MOBIL */
+@media (max-width: 420px){
+  #calendar-controls button{
+    padding: 10px 12px;
+    font-size: 16px;
+  }
+  #monthYear{
+    font-size: 1.05em;
+  }
+  .day{
+    padding: 7px;
+  }
+  .task-badge{
+    font-size: 0.75em;
+  }
+}

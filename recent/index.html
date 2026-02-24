@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalendár prác</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+<!--
+<video class="bg-video" autoplay muted loop playsinline>
+  <source src="MP4-1.mp4" type="video/mp4">
+</video>
+-->
+    <header>
+        <h1>Kalendár prác</h1>
+    </header>
+   <div id="calendar-controls">
+  <button id="prevMonth">‹</button>
+<div class="monthYearRow">
+  <div id="monthYear"></div>
+
+  <!-- <button id="openDateBtn" type="button" aria-label="Vyber datumu">📅</button> -->
+
+  <input type="date" id="jumpToDate" style="display:none;">
+</div>
+<button id="nextMonth">›</button>
+</div>
+    <div id="viewControls">
+        <button id="todayBtn">Dnes</button>
+        <button data-view="day">Deň</button>
+        <button data-view="week">Týždeň</button>
+        <button data-view="month" class="active">Mesiac</button>
+    </div>
+    <div id="dayPicker" class="hidden"></div>
+    <div id="calendar" class="month-view"></div>
+    <div id="taskModal" class="modal hidden">
+    <div class="modal-content">
+
+        <h2><span id="modalDateDisplay"></span></h2>
+        <h2>Pridať / Upraviť zákazku</h2>
+
+        <form id="taskForm">
+
+            <!-- DÁTUM – IBA JEDENKRÁT -->
+            <div id="datePickerSection">
+                <label for="selectedDate">Dátum:*<span class="required">*</span></label>
+                <input type="date" id="selectedDate" name="selectedDate" required>
+            </div>
+
+            <input type="hidden" id="editIndex" name="editIndex">
+
+
+
+                <label for="createdBy">Vytvoril:<span class="required">*</span></label>
+                <select id="createdBy" name="createdBy" required>
+                    <option value="">Vyber:</option>
+                    <option value="Patrik Krutek">Patrik Krutek</option>
+                    <option value="Michal Murin">Michal Murin</option>
+                    <option value="Martin Morvay">Martin Morvay</option>
+                    <option value="Vlastimil Morvay">Vlastimil Morvay</option>
+                    <option value="Milan Morvay">Milan Morvay</option>
+                </select>
+
+                <label for="popis">Popis práce:<span class="required">*</span></label>
+                <select id="popis" name="popis" required>
+                    <option value="">Vyber:</option>
+                    <option value="Oprava skla">Oprava skla</option>
+                    <option value="Výmena skla">Výmena skla</option>
+                    <!-- <option value="Prelepenie skla">Prelepenie skla</option> -->
+                    <option value="Ťažné zariadenie">Ťažné zariadenie</option>
+                    <option value="Žiarovky">Žiarovky</option>
+                    <option value="Klimatizácia">Klimatizácia</option>
+                    <option value="Ostatné">Ostatné</option>
+                </select>
+                <label id="customPopisLabel" style="display: none;">Zadajte popis:<span class="required">*</span></label>
+                <input type="text" id="customPopis" name="customPopis" style="display: none;">
+                <label for="znacka">Vozidlo:<span class="required">*</span></label>
+<input type="text" id="znacka" name="znacka" placeholder="Znacka, model" required>
+<!-- POČET POŠKODENÍ – iba pre Oprava skla -->
+<label for="poskodenia" id="poskodeniaLabel" style="display:none;">
+    Počet poškodení:
+</label>
+
+<select id="poskodenia" name="poskodenia" style="display:none;">
+    <option value="">Vyber:</option>
+    <option value="?">?</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+</select>
+
+<label for="spz" style="margin-top:6px;">SPZ:</label>
+<input type="text" id="spz" name="spz" placeholder="Napr. TT020HO" autocomplete="off" maxlength="10">
+                <label for="poistovna">Poisťovňa:<span class="required">*</span></label>
+                <select id="poistovna" name="poistovna" required>
+                    <option value="">Vyber:</option>
+                    <option value="Bez poisťovne">Bez poisťovne</option>
+                    <option value="Poisťovňu nevieme">Poisťovňu nevieme</option>
+                    <option value="Allianz">Allianz</option>
+                    <option value="ČSOB">ČSOB</option>
+                    <option value="Generali">Generali</option>
+                    <option value="Groupama">Groupama</option>
+                    <option value="Uniqa">Uniqa</option>
+                    <option value="Kooperativa">Kooperativa</option>
+                    <option value="Komunálna">Komunálna</option>
+                    <option value="Wüstenrot">Wüstenrot</option>
+                    <option value="Union">Union</option>
+                    <option value="OD PROGRAM">OD PROGRAM</option>
+                </select>
+                <label for="startTime">Začiatok (čas):<span class="required">*</span></label>
+                <select id="startTime" name="startTime" required>
+                    <option value="">Vyber:</option>
+                    <option value="08:00">08:00</option>
+                    <option value="08:30">08:30</option>
+                    <option value="09:00">09:00</option>
+                    <option value="09:30">09:30</option>
+                    <option value="10:00">10:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:00">11:00</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:00">15:00</option>
+                    <option value="15:30">15:30</option>
+                    <option value="16:00">16:00</option>
+                </select>
+                <label for="telefon">Telefónne číslo zákazníka:<span class="required">*</span></label>
+                <input type="tel" id="telefon" name="telefon" required>
+                <label for="meno">Meno zákazníka:</label>  
+                <!-- <span class="required">*</span> -->
+                <input type="text" id="meno" name="meno">
+                <!-- <label for="cena">Cena (EUR):</label>
+                <input type="number" id="cena" name="cena" step="0.01" min="0" placeholder="0.00"> -->
+                <label for="mechanik">Mechanik:</label>
+                <select id="mechanik" name="mechanik">
+                    <option value="">Vyber:</option>
+                    <option value="Peter Kulich">Peter Kulich</option>
+                    <option value="Róbert Krutek">Róbert Krutek</option>
+                    <option value="Tomáš Hrašna">Tomáš Hrašna</option>
+                    <option value="Martin Morvay">Martin Morvay</option>
+                    <option value="Vlastimil Morvay">Vlastimil Morvay</option>
+                    <option value="Milan Morvay">Milan Morvay</option>
+                    <option value="Dominik Levársky">Dominik Levársky</option>
+                    <option value="Patrik Krutek">Patrik Krutek</option>
+                    <option value="Michal Murin">Michal Murin</option>
+                </select>
+                <label for="extraInfo">Ďalšie informácie (nepovinné):</label>
+                <input type="text" id="extraInfo" name="extraInfo">
+                <label for="cenaInline">Dohodnutá cena:</label>
+                <input type="text" id="cenaInline" name="cenaInline" inputmode="decimal" placeholder="Cena v € (napr. 250)">
+<div class="checklist-section checklist-grid">
+  <h3>Check list</h3>
+
+  <div class="checklist-cols">
+    <!-- LAVA strana -->
+    <div class="checklist-col">
+      <div class="checklist-col-title">ZÁKLADNÉ</div>
+
+      <label class="cl-item">
+        <input type="checkbox" name="checklist" value="Dodaný materiál">
+        <span class="cl-ico">📦</span>
+        <span class="cl-text">Dodaný materiál</span>
+      </label>
+
+      <label class="cl-item">
+        <input type="checkbox" name="checklist" value="Zákazka dokončená">
+        <span class="cl-ico">✅</span>
+        <span class="cl-text">Zákazka ukončená mechanikom</span>
+      </label>
+
+      <label class="cl-item">
+        <input type="checkbox" name="checklist" value="Kontaktovaný">
+        <span class="cl-ico">📞</span>
+        <span class="cl-text">Zákazník kontaktovaný o ukončení zákazky</span>
+      </label>
+
+      <label class="cl-item">
+        <input type="checkbox" name="checklist" value="Zákazka odovzdaná">
+        <span class="cl-ico">🚗💨</span>
+        <span class="cl-text">Zákazka odovzdaná</span>
+      </label>
+    </div>
+
+    <!-- PRAVA strana -->
+    <div class="checklist-col">
+      <div class="checklist-col-title">DOPLNKOVÉ</div>
+
+      <label class="cl-item">
+        <input type="checkbox" name="checklist" value="Zakazka zrusena">
+        <span class="cl-ico">❌</span>
+        <span class="cl-text">Zákazka zrušená</span>
+      </label>
+
+      <!-- Prenocovanie (zachovame ID) -->
+      <label class="cl-item" id="prenocovanieCheckboxLabel" style="display:none;">
+        <input type="checkbox" name="checklist" value="Prenocovanie">
+        <span class="cl-ico">🌙</span>
+        <span class="cl-text">Prenocovanie</span>
+      </label>
+    </div>
+  </div>
+</div>
+                <!-- <div id="taskList"></div> TOTO JE TO OKNO KDE BOLO VYMAZAVANIE TASKOV KEDYSI-->
+                <div class="modal-buttons">
+                    <button type="button" id="cancelModal">Zavrieť</button>
+                    <button type="submit">Uložiť</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="detailsModal" class="modal hidden">
+        <div class="modal-content">
+            <div class="details-header">
+  <h2 id="detailsTitle">Detail zákazky</h2>
+
+  <button type="button" id="printProtocolA4">🖨️ A4 protokol</button>
+</div>
+            <div id="detailsContent"></div>
+            <div id="detailsChecklist" class="checklist-section checklist-grid">
+  <h3>Check list</h3>
+
+  <div class="checklist-cols">
+    <!-- LAVA strana -->
+    <div class="checklist-col">
+      <div class="checklist-col-title">ZÁKLADNÉ</div>
+
+      <label class="cl-item">
+        <input type="checkbox" name="detailsChecklist" value="Dodaný materiál">
+        <span class="cl-ico">📦</span>
+        <span class="cl-text">Dodaný materiál</span>
+      </label>
+
+      <label class="cl-item">
+        <input type="checkbox" name="detailsChecklist" value="Zákazka dokončená">
+        <span class="cl-ico">✅</span>
+        <span class="cl-text">Zákazka ukončená mechanikom</span>
+      </label>
+
+      <label class="cl-item">
+        <input type="checkbox" name="detailsChecklist" value="Kontaktovaný">
+        <span class="cl-ico">📞</span>
+        <span class="cl-text">Zákazník kontaktovaný o ukončení zákazky</span>
+      </label>
+
+      <label class="cl-item">
+        <input type="checkbox" name="detailsChecklist" value="Zákazka odovzdaná">
+        <span class="cl-ico">🚗💨</span>
+        <span class="cl-text">Zákazka odovzdaná</span>
+      </label>
+    </div>
+
+    <!-- PRAVA strana -->
+    <div class="checklist-col">
+      <div class="checklist-col-title">DOPLNKOVÉ</div>
+
+      <label class="cl-item">
+        <input type="checkbox" name="detailsChecklist" value="Zakazka zrusena">
+        <span class="cl-ico">❌</span>
+        <span class="cl-text">Zákazka zrušená</span>
+      </label>
+
+      <!-- Prenocovanie (zachovame ID) -->
+      <label class="cl-item" id="detailsPrenocovanieCheckboxLabel" style="display:none;">
+        <input type="checkbox" name="detailsChecklist" value="Prenocovanie">
+        <span class="cl-ico">🌙</span>
+        <span class="cl-text">Prenocovanie</span>
+      </label>
+      <div class="checklist-spacer"></div>
+
+      <div class="locked-info">
+  <span class="lock-ico">🔒</span>
+  <span class="locked-info-text">INFO:</span>
+  <span class="lock-ico">🔒</span>
+</div>
+
+<label class="cl-item locked-check" title="Tento stav sa nastavuje automaticky po tlaci stitku">
+  <input type="checkbox" name="detailsChecklist" value="Vytlaceny stitok" disabled>
+  <span class="cl-ico">🖨️</span>
+  <span class="cl-text">Štítok vytlačený</span>
+</label>
+    </div>
+  </div>
+</div>
+            <div class="modal-buttons">
+                <button id="deleteTaskBtn">🗑️ Zmazať</button>
+                <button type="button" id="printLabel">Tlač štítku</button>
+                <button type="button" id="saveChecklist">Uložiť</button>
+                <button type="button" id="editDetails">Editovať</button>
+                <button type="button" id="closeDetails">Zavrieť</button>
+            </div>
+        </div>
+    </div>
+    <div id="vacationModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Pridanie / Úprava neprítomnosti</h2>
+            <form id="vacationForm">
+                <input type="hidden" id="vacationIndex" name="vacationIndex" value="-1">
+                <label for="employee">Meno zamestnanca:<span class="required">*</span></label>
+                <select id="employee" name="employee" required>
+                    <option value="">Vyber:</option>
+                    <option value="Peter Kulich">Peter Kulich</option>
+                    <option value="Tomáš Hrašna">Tomáš Hrašna</option>
+                    <option value="Róbert Krutek">Róbert Krutek</option>
+                    <option value="Patrik Krutek">Patrik Krutek</option>
+                    <option value="Michal Murin">Michal Murin</option>
+                    <option value="Martin Morvay">Martin Morvay</option>
+                    <option value="Vlastimil Morvay">Vlastimil Morvay</option>
+                    <option value="Milan Morvay">Milan Morvay</option>
+                    <option value="Dominik Levársky">Dominik Levársky</option>
+                </select>
+                <label for="absenceType">Typ absencie:<span class="required">*</span></label>
+                <select id="absenceType" name="absenceType" required>
+                    <option value="">Vyber:</option>
+                    <option value="Dovolenka - celý deň">Dovolenka - celý deň</option>
+                    <option value="Dovolenka do 12:00">Dovolenka do 12:00</option>
+                    <option value="Dovolenka od 12:00">Dovolenka od 12:00 </option>
+                    <option value="Doprovod - celý deň">Doprovod - celý deň</option>
+                    <option value="Doprovod - časovo obmedzený">Doprovod - časovo obmedzený</option>
+                    <option value="Návšteva lekára - celý deň">Návšteva lekára - celý deň</option>
+                    <option value="Návšteva lekára - časovo obmedzená">Návšteva lekára - časovo obmedzená</option>
+                    <option value="PN-ka">PN-ka</option>
+                    <option value="OČR">OČR</option>
+                    <option value="Služobka">Služobka</option>
+                    <option value="Iné - časovo obmedzené">Iné - časovo obmedzené</option>
+                </select>
+                <label for="dateFrom">Dátum od:<span class="required">*</span></label>
+                <input type="date" id="dateFrom" name="dateFrom" required>
+                <label for="dateTo">Dátum do:<span class="required">*</span></label>
+                <input type="date" id="dateTo" name="dateTo" required>
+                <label for="vacationNote">Poznámka (nepovinné):</label>
+                <input type="text" id="vacationNote" name="vacationNote">
+                <div class="modal-buttons">
+                    <button type="submit">Uložiť</button>
+                    <button type="button" id="deleteVacationBtn" class="delete-vacation-btn" style="display: none;">🗑️ Zmazať</button>
+                    <button type="button" id="cancelVacationModal">Zavrieť</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="exportModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Export</h2>
+            <form id="exportForm">
+                <label for="dateFromExport">Dátum od:<span class="required">*</span></label>
+                <input type="date" id="dateFromExport" name="dateFromExport" required>
+                <label for="dateToExport">Dátum do:<span class="required">*</span></label>
+                <input type="date" id="dateToExport" name="dateToExport" required>
+                <label for="exportFormat">Formát:<span class="required">*</span></label>
+                <select id="exportFormat" name="exportFormat" required>
+                    <option value="">Vyber:</option>
+                    <option value="pdf">PDF</option>
+                    <option value="excel">Excel</option>
+                </select>
+                <div class="modal-buttons">
+                    <button type="submit">Exportovať</button>
+                    <button type="button" id="cancelExportModal">Zavrieť</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="noteModal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Pridanie / Úprava poznámky</h2>
+            <form id="noteForm">
+                <input type="hidden" id="noteIndex" name="noteIndex" value="-1">
+                <label for="noteDate">Dátum:<span class="required">*</span></label>
+                <input type="date" id="noteDate" name="noteDate" required>
+                <label for="noteText">Poznámka:<span class="required">*</span></label>
+                <textarea id="noteText" name="noteText" required rows="4" style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc;"></textarea>
+                <div class="modal-buttons">
+                    <button type="submit">Uložiť</button>
+                    <button type="button" id="deleteNoteBtn">🗑️ Zmazať</button>
+                    <button type="button" id="cancelNoteModal">Zavrieť</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- NOVÝ SEARCH MODAL -->
+    <div id="searchModal" class="modal hidden">
+    <div class="modal-content" style="
+        position: relative; 
+        max-height: 90vh; 
+        overflow-y: auto; 
+        background: white; 
+        border: 3px solid #007bff; 
+        border-radius: 12px; 
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        padding: 20px;
+    ">
+        <!-- Zavrieť X -->
+        <span class="close-modal" id="closeSearchModal" style="
+            position: absolute; 
+            top: 10px; 
+            right: 15px; 
+            font-size: 32px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            color: #ff0000;
+        ">&times;</span>
+
+        <h2 style="
+            text-align: center; 
+            margin-top: 0; 
+            color: #007bff; 
+            font-size: 24px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        ">Výsledky vyhľadávania</h2>
+
+        <div id="searchResults" style="margin-top: 20px; font-size: 16px;"></div>
+    </div>
+</div>
+    <div class="add-vacation-button">
+        <button id="addNote">Pridanie poznámky</button>
+        <button id="addVacation">Pridanie neprítomnosti</button>
+        <button id="exportToPDF">Export</button>
+        <button id="openPozicovna">Požičovna</button>
+    <button id="openStatistiky">Štatistiky</button>
+    </div>
+    <!-- NOVÝ SEARCH BAR -->
+   <div id="searchContainer" style="
+    text-align: center; 
+    margin: 20px auto; 
+    padding: 10px 0;
+">
+    <input type="text" id="searchInput" placeholder="Hľadaj podľa značky, poisťovne, mena, tel. čísla, popisu..."
+           style="
+               padding: 12px 16px; 
+               font-size: 18px; 
+               width: 60%; 
+               max-width: 500px; 
+               border: 2px solid #007bff; 
+               border-radius: 8px; 
+               box-sizing: border-box;
+               margin-right: 10px;
+           ">
+    <button id="searchBtn" style="
+               padding: 12px 28px; 
+               font-size: 18px; 
+               font-weight: bold; 
+               background: #007bff; 
+               color: white; 
+               border: none; 
+               border-radius: 8px; 
+               cursor: pointer;
+               vertical-align: middle;
+           ">
+        Vyhľadať
+    </button>
+</div>
+<div class="stamp-wrap" aria-hidden="true">
+  <svg class="stamp-svg" viewBox="0 0 320 320">
+    <defs>
+      <!-- Path pre kruhovy text (mierne vacsi radius, aby bol text citatelny) -->
+      <path id="stampTextPath"
+        d="M160,160
+           m-118,0
+           a118,118 0 1,1 236,0
+           a118,118 0 1,1 -236,0" />
+    </defs>
+
+    <!-- ROTUJUCA CAST (kruhy + text dokola) -->
+    <g class="stamp-rotate">
+      <!-- vonkajsi dashed kruh -->
+      <circle class="stamp-ring stamp-ring-outer" cx="160" cy="160" r="155"></circle>
+
+      <!-- bodkovany kruh POSUNUTY BLIZSIE KU STREDU -->
+      <circle class="stamp-ring stamp-ring-inner" cx="160" cy="160" r="104"></circle>
+
+      <!-- kruhovy text (LEN RAZ) -->
+      <text class="stamp-circle-text" dy="-12">
+        <textPath href="#stampTextPath" startOffset="50%" text-anchor="middle">
+          VYTVORENE PRE AUTOGLAS s.r.o. 1-8-2025
+        </textPath>
+      </text>
+    </g>
+
+    <!-- STATICKY STRED -->
+    <g class="stamp-center-group">
+      <text class="stamp-center" x="160" y="160" text-anchor="middle">
+        <tspan x="160" dy="-10">MARTIN</tspan>
+        <tspan x="160" dy="46">&amp; LUKAS</tspan>
+      </text>
+    </g>
+  </svg>
+</div>
+
+<script src="script.js?v=20260124_1"></script>
+
+<div id="printArea" style="display:none"></div>
+
+</body>
+</html>
